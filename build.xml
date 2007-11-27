@@ -1,0 +1,54 @@
+<project name="Makejavauseful" default="deploy" basedir=".">
+    <description>
+    	An attempt to create a library to use really nifty features in java like higher-order-function, ducktyping and everything I can find and think is useful 
+    </description>
+
+    <property name="src" location="src"/>
+    <property name="bin" location="bin"/>
+    <property name="deploy" location="deploy"/>
+    <property name="jarFileName" value="Makejavauseful.jar"/>
+    
+    <target name="deploy" depends="compile,-init-deploy">
+        <jar jarfile="${deploy}/${jarFileName}" basedir="${bin}">
+            <manifest>
+                <attribute name="Build-by" value="${user.name}"/>
+            	<attribute name="Main-class" value="${mainClass}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="deploy-debug" depends="compile-debug,-init-deploy">
+        <jar jarfile="${deploy}/${jarFileName}" basedir="${bin}">
+            <manifest>
+                <attribute name="Build-by" value="${user.name}"/>
+            	<attribute name="Main-class" value="${mainClass}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="compile" depends="-init-bin">
+        <javac compiler="javac1.5" srcDir="${src}" destdir="${bin}" nowarn="on" debug="off" optimize="on">
+            <include name="**/*java"/>
+        </javac>
+    </target>
+
+    <target name="compile-debug" depends="-init-bin">
+        <javac compiler="javac1.5" srcDir="${src}" destdir="${bin}" debug="on" optimize="off">
+	    <compilerarg value="-Xlint:unchecked"/>
+            <include name="**/*java"/>
+        </javac>
+    </target>
+
+    <target name="clean">
+        <delete dir="${bin}"/>
+        <delete dir="${deploy}"/>
+    </target>
+
+    <target name="-init-bin">
+        <mkdir dir="${bin}"/>
+    </target>
+    
+    <target name="-init-deploy">
+        <mkdir dir="${deploy}"/>
+    </target>
+</project>
