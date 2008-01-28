@@ -161,7 +161,7 @@ public abstract class AbstractOrderingRelation<T> extends AbstractBinaryPredicat
             }
         }
         
-        //... after we are done iterating whe return the found maximum       
+        //... after we are done iterating we return the found maximum       
         return maximum;
     }
     
@@ -200,8 +200,8 @@ public abstract class AbstractOrderingRelation<T> extends AbstractBinaryPredicat
         if (listSize <= 5) {
             return upperMedianOf5(l,key);
         }
-        
-        return selectNthInOrder( ((int)Math.ceil(listSize/2)), l, key );        
+        final int listSizeHalf = listSize >>> 1;
+        return selectNthInOrder( (listSize & 1) == 1 ? listSizeHalf + 1 : listSizeHalf, l, key );        
     }
     
     /*
@@ -214,7 +214,7 @@ public abstract class AbstractOrderingRelation<T> extends AbstractBinaryPredicat
             return lowerMedianOf5(l,key);
         }
          
-        return selectNthInOrder( ((int)Math.floor(listSize/2)), l, key );        
+        return selectNthInOrder( listSize/2, l, key );        
     }
 
     /* 
@@ -284,7 +284,7 @@ public abstract class AbstractOrderingRelation<T> extends AbstractBinaryPredicat
             return selectNthInOrderRandom( n, lower, key);
         }
         //... otherwise if is is larger than the lower list ...
-        //... and inbetween the lower and the larger list ...
+        //... and in between the lower and the larger list ...
         else if (n < (sizeOfLower + sizeOfSame)) {
             //... it is safe to say the element we want to ...
             //... find is the pivot ...
@@ -300,20 +300,21 @@ public abstract class AbstractOrderingRelation<T> extends AbstractBinaryPredicat
     
     private final <ANY> ANY upperMedianOf5 (final List<ANY> l, final UnaryFunction<T, ANY> key) {
         //To find the upper median of 5 elements we just sort the list
-        List<ANY> tmpList = sort (l, key);
+        final List<ANY> tmpList = sort (l, key);
 
         //Take it's size ...
-        int tmpSize = l.size();
+        final int tmpSize = l.size();
+        final int tmpSizeHalf  = tmpSize >>> 1;
         //Divide it by 2 and return the cell element at that position ...
-        return tmpList.get ( ((int)Math.ceil(tmpSize / 2)) );
+        return tmpList.get ( (tmpSize & 1) == 1 ? tmpSizeHalf + 1 : tmpSize );
     }
     
     private final <ANY> ANY lowerMedianOf5 (final List<ANY> l, final UnaryFunction<T,ANY> key) {
         //For 5 elements we just sort  ...
-        List<ANY> tmpList = sort (l, key);
+        final List<ANY> tmpList = sort (l, key);
         //... take the size of the list ...
-        int tmpSize = l.size();
+        final int tmpSize = l.size();
         //... and return the floor (size / 2)'s element of the list
-        return tmpList.get ( ((int)Math.floor(tmpSize / 2.0)) );
+        return tmpList.get ( tmpSize / 2 );
     }   
 }
