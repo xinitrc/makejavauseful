@@ -2,6 +2,8 @@ package net.homelinux.chaoswg.io.makejavauseful.higherorderfunctions;
 
 import java.util.List;
 
+import net.homelinux.chaoswg.io.makejavauseful.datatypes.Pair;
+
 public interface UnaryPredicate<T0> extends UnaryFunction<Boolean, T0>,NAryPredicate {
     public UnaryPredicate<T0> disjoin (final UnaryPredicate<T0>... unaryPredicates);
     public UnaryPredicate<T0> conjoin (final UnaryPredicate<T0>... unaryPredicates);
@@ -45,4 +47,17 @@ public interface UnaryPredicate<T0> extends UnaryFunction<Boolean, T0>,NAryPredi
 
     public T0 findIfNot (final T0... l);
     public <ANY>ANY findIfNot (final ANY[] l, final UnaryFunction<? extends T0, ANY> key);
+    
+    public Pair<List<T0>, List<T0>> split (final List<? extends T0> l);
+    public <ANY>Pair<List<ANY>, List<ANY>> split (final List<ANY> l, final UnaryFunction<? extends T0,ANY> key);
+    
+    public <ANY>Pair<List<ANY>, List<ANY>> splitBy (final List<? extends T0> toTest, final List<ANY> values);
+    public <ANY0,ANY1>Pair<List<ANY1>, List<ANY1>> splitBy (final List<ANY0> toTest, final List<ANY1> values, final UnaryFunction<? extends T0,ANY0> key);
+    
+    public Pair<List<T0>, List<T0>> split (final T0... l);
+    public <ANY>Pair<List<ANY>, List<ANY>> split (final ANY[] l, final UnaryFunction<? extends T0,ANY> key);
+    
+    public <ANY>Pair<List<ANY>, List<ANY>> splitBy (final T0[] toTest, final ANY[] values);
+    public <ANY0,ANY1>Pair<List<ANY1>, List<ANY1>> splitBy (final ANY0[] toTest, final ANY1[] values, final UnaryFunction<? extends T0,ANY0> key);
+    
 }

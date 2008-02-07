@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import net.homelinux.chaoswg.io.makejavauseful.datatypes.Pair;
+
 public abstract class AbstractUnaryPredicate<T0> extends AbstractUnaryFunction<Boolean, T0> implements UnaryPredicate<T0> {
     public Boolean any(final List<? extends T0> l) {
         for (final T0 t0 : l) {
@@ -297,4 +299,107 @@ public abstract class AbstractUnaryPredicate<T0> extends AbstractUnaryFunction<B
         
         return acp;
     }
+
+	@Override
+	public Pair<List<T0>, List<T0>> split(final List<? extends T0> l) {
+		final List<T0> toReturn0 = new Vector<T0> ();
+		final List<T0> toReturn1 = new Vector<T0> ();
+        for (final T0 t0 : l) {
+            if (apply(t0)) {
+                toReturn0.add (t0);
+            } else {
+            	toReturn1.add (t0);
+            }
+        }
+        
+        return new Pair<List<T0>, List<T0>> (toReturn0, toReturn1);
+	}
+
+	@Override
+	public <ANY> Pair<List<ANY>, List<ANY>> split(List<ANY> l, UnaryFunction<? extends T0, ANY> key) {
+        final List<ANY> toReturn0 = new Vector<ANY> ();
+        final List<ANY> toReturn1 = new Vector<ANY> ();
+        
+        for (final ANY a : l) {
+            if (apply (key.apply(a))) {
+                toReturn0.add (a);
+            } else {
+            	toReturn1.add (a);
+            }
+        }
+        return new Pair<List<ANY>, List<ANY>> (toReturn0, toReturn1);
+	}
+
+	@Override
+	public Pair<List<T0>, List<T0>> split(T0... l) {
+		return split (Arrays.asList(l));
+	}
+
+	@Override
+	public <ANY> Pair<List<ANY>, List<ANY>> split(ANY[] l, UnaryFunction<? extends T0, ANY> key) {
+        final List<ANY> toReturn0 = new Vector<ANY> ();
+        final List<ANY> toReturn1 = new Vector<ANY> ();
+        
+        for (final ANY a : l) {
+            if (apply (key.apply(a))) {
+                toReturn0.add (a);
+            } else {
+            	toReturn1.add (a);
+            }
+        }
+		return new Pair<List<ANY>, List<ANY>>(toReturn0, toReturn1);
+	}
+
+	@Override
+	public <ANY> Pair<List<ANY>, List<ANY>> splitBy(List<? extends T0> toTest, List<ANY> values) {
+        final List<ANY> toReturn0 = new Vector<ANY> ();
+        final List<ANY> toReturn1 = new Vector<ANY> ();
+        final Iterator<? extends T0> ttIter = toTest.iterator();
+        final Iterator<ANY> valIter = values.iterator();
+        
+        while (ttIter.hasNext() && valIter.hasNext()) {
+            final T0 toTst = ttIter.next();
+            final ANY val = valIter.next();
+            
+            if (apply (toTst)) {
+                toReturn0.add (val);
+            } else {
+            	toReturn1.add (val);
+            }
+        }
+		return new Pair<List<ANY>, List<ANY>>(toReturn0, toReturn1);
+	}
+
+	@Override
+	public <ANY0, ANY1> Pair<List<ANY1>, List<ANY1>> splitBy(List<ANY0> toTest, List<ANY1> values, UnaryFunction<? extends T0, ANY0> key) {
+        final List<ANY1> toReturn0 = new Vector<ANY1> ();
+        final List<ANY1> toReturn1 = new Vector<ANY1> ();
+        
+        final Iterator<ANY0> ttIter = toTest.iterator();
+        final Iterator<ANY1> valIter = values.iterator();
+        
+        while (ttIter.hasNext() && valIter.hasNext()) {
+            final ANY0 toTst = ttIter.next();
+            final ANY1 val = valIter.next();
+            
+            if (apply (key.apply (toTst))) {
+                toReturn0.add(val);
+            } else {
+            	toReturn1.add(val);
+            }
+
+        }
+        
+		return new Pair<List<ANY1>, List<ANY1>> (toReturn0, toReturn1);
+	}
+
+	@Override
+	public <ANY> Pair<List<ANY>, List<ANY>> splitBy(T0[] toTest, ANY[] values) {
+        return this.splitBy (Arrays.asList(toTest), Arrays.asList(values));
+	}
+
+	@Override
+	public <ANY0, ANY1> Pair<List<ANY1>, List<ANY1>> splitBy(ANY0[] toTest, ANY1[] values, UnaryFunction<? extends T0, ANY0> key) {
+        return this.splitBy (Arrays.asList(toTest), Arrays.asList(values), key);
+	}
 }
