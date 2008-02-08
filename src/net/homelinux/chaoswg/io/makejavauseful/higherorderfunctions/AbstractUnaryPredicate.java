@@ -316,7 +316,7 @@ public abstract class AbstractUnaryPredicate<T0> extends AbstractUnaryFunction<B
 	}
 
 	@Override
-	public <ANY> Pair<List<ANY>, List<ANY>> split(List<ANY> l, UnaryFunction<? extends T0, ANY> key) {
+	public <ANY> Pair<List<ANY>, List<ANY>> split(final List<ANY> l, final UnaryFunction<? extends T0, ANY> key) {
         final List<ANY> toReturn0 = new Vector<ANY> ();
         final List<ANY> toReturn1 = new Vector<ANY> ();
         
@@ -331,12 +331,12 @@ public abstract class AbstractUnaryPredicate<T0> extends AbstractUnaryFunction<B
 	}
 
 	@Override
-	public Pair<List<T0>, List<T0>> split(T0... l) {
+	public Pair<List<T0>, List<T0>> split(final T0... l) {
 		return split (Arrays.asList(l));
 	}
 
 	@Override
-	public <ANY> Pair<List<ANY>, List<ANY>> split(ANY[] l, UnaryFunction<? extends T0, ANY> key) {
+	public <ANY> Pair<List<ANY>, List<ANY>> split(final ANY[] l, final UnaryFunction<? extends T0, ANY> key) {
         final List<ANY> toReturn0 = new Vector<ANY> ();
         final List<ANY> toReturn1 = new Vector<ANY> ();
         
@@ -351,7 +351,7 @@ public abstract class AbstractUnaryPredicate<T0> extends AbstractUnaryFunction<B
 	}
 
 	@Override
-	public <ANY> Pair<List<ANY>, List<ANY>> splitBy(List<? extends T0> toTest, List<ANY> values) {
+	public <ANY> Pair<List<ANY>, List<ANY>> splitBy(final List<? extends T0> toTest, final List<ANY> values) {
         final List<ANY> toReturn0 = new Vector<ANY> ();
         final List<ANY> toReturn1 = new Vector<ANY> ();
         final Iterator<? extends T0> ttIter = toTest.iterator();
@@ -371,7 +371,7 @@ public abstract class AbstractUnaryPredicate<T0> extends AbstractUnaryFunction<B
 	}
 
 	@Override
-	public <ANY0, ANY1> Pair<List<ANY1>, List<ANY1>> splitBy(List<ANY0> toTest, List<ANY1> values, UnaryFunction<? extends T0, ANY0> key) {
+	public <ANY0, ANY1> Pair<List<ANY1>, List<ANY1>> splitBy(final List<ANY0> toTest, final List<ANY1> values, final UnaryFunction<? extends T0, ANY0> key) {
         final List<ANY1> toReturn0 = new Vector<ANY1> ();
         final List<ANY1> toReturn1 = new Vector<ANY1> ();
         
@@ -394,12 +394,12 @@ public abstract class AbstractUnaryPredicate<T0> extends AbstractUnaryFunction<B
 	}
 
 	@Override
-	public <ANY> Pair<List<ANY>, List<ANY>> splitBy(T0[] toTest, ANY[] values) {
+	public <ANY> Pair<List<ANY>, List<ANY>> splitBy(final T0[] toTest, final ANY[] values) {
         return this.splitBy (Arrays.asList(toTest), Arrays.asList(values));
 	}
 
 	@Override
-	public <ANY0, ANY1> Pair<List<ANY1>, List<ANY1>> splitBy(ANY0[] toTest, ANY1[] values, UnaryFunction<? extends T0, ANY0> key) {
+	public <ANY0, ANY1> Pair<List<ANY1>, List<ANY1>> splitBy(final ANY0[] toTest, final ANY1[] values, final UnaryFunction<? extends T0, ANY0> key) {
         return this.splitBy (Arrays.asList(toTest), Arrays.asList(values), key);
 	}
 }
