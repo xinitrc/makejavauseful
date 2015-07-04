@@ -1,0 +1,1 @@
+MakeJavaUseful ist a library containing classes for programming with higher order functions. Besides that Classes and Methods are provided to program with Monads and Lazy Evaluation
